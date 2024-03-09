@@ -12,13 +12,9 @@
         <option value="RECREFAM">RECREFAM</option>
     </select>
     <br>
-    <select class="form-select form-select-lg" *ngFor="let grupo of articulo" (change)="capturarSelect($event)">
+    <select class="form-select form-select-lg" (change)="capturarSelect($event)">
         <option value="">Grupos</option>
-        <option value="Granos">Granos</option>
-        <option value="Carnes">Carnes</option>
-        <option value="Lacteos">Lacteos</option>
-        <option value="Bebidas">Bebidas</option>
-        <option value="Infantiles">Infanitles?</option>
+        <option value="Granos" *ngFor="let grupo of gruposUnicos" value="{{grupo}}">{{grupo}}</option>
     </select>
     <br>
     <div class="table-responsive">
@@ -40,9 +36,9 @@
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-primary" (click)="mandarValores()">Imprimir</button>
+        <button class="btn btn-primary" (click)="generarPDF()">Enviar datos</button>
     </div>
     
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
