@@ -1,0 +1,48 @@
+
+<div class="card text-white bg-primary">
+    <div class="card-body">
+        <h4 class="card-title d-flex justify-content-center">Bienvenido</h4>
+    </div>
+</div>
+
+<div class="mb-3">
+    <select  class="form-select form-select-lg" (change)="capturarSelect($event)">
+        <option value="">Empresa</option>
+        <option value="FAM">FAM</option>
+        <option value="RECREFAM">RECREFAM</option>
+    </select>
+    <br>
+    <select class="form-select form-select-lg" *ngFor="let grupo of articulo" (change)="capturarSelect($event)">
+        <option value="">Grupos</option>
+        <option value="Granos">Granos</option>
+        <option value="Carnes">Carnes</option>
+        <option value="Lacteos">Lacteos</option>
+        <option value="Bebidas">Bebidas</option>
+        <option value="Infantiles">Infanitles?</option>
+    </select>
+    <br>
+    <div class="table-responsive">
+        <table class="table table-light border">
+            <thead>
+                <tr>
+                    <th scope="col">Código</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Presentación</th>
+                    <th scope="col">Imprimir</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let art of articulo">
+                <tr class="">
+                    <td scope="row">{{art.Codigo}}</td>
+                    <td>{{art.Nombre}}</td>
+                    <td>{{art.Presentacion}}</td>
+                    <td><input type="checkbox" (click)="capturarValores($event)"></td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-primary" (click)="mandarValores()">Imprimir</button>
+    </div>
+    
+</div>
+
+
