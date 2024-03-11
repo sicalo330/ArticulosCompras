@@ -17,7 +17,7 @@
         <option value="Granos" *ngFor="let grupo of gruposUnicos" value="{{grupo}}">{{grupo}}</option>
     </select>
     <br>
-    <div class="table-responsive">
+    <div class="table-responsive" *ngIf="valorSeleccionado">
         <table class="table table-light border">
             <thead>
                 <tr>
@@ -36,7 +36,7 @@
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-primary" (click)="generarPDF()">Enviar datos</button>
+        <button class="btn btn-primary" (click)="verificarPDF()">Enviar datos</button>
     </div>
     
 </div>
