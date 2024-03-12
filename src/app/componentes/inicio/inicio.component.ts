@@ -126,21 +126,26 @@ import { NgxPrintService } from 'ngx-print';
     */
 
     async printer() {
-      let contenidoImprimir = '<div style="column-count: 2;">'; // Inicia el contenedor de las dos columnas
+      let contenidoImprimir = '<div style="display: flex;">'; // Inicia el contenedor flex
       for (let i = 0; i < this.datos.length; i++) {
-        contenidoImprimir += '<div style="display: inline-block; width: 50%;">'; // Inicia un elemento de columna
+        contenidoImprimir += '<div style="flex: 1;">'; // Inicia un contenedor para cada columna
         contenidoImprimir += `<p>Código: ${this.datos[i].codigo}</p>`;
+        contenidoImprimir += '</div>'; // Cierra el contenedor de la primera columna
+    
+        contenidoImprimir += '<div style="flex: 1; margin-left: 20px;">'; // Inicia un contenedor para la segunda columna con un margen
         contenidoImprimir += `<p>Nombre: ${this.datos[i].nombre}</p>`;
         contenidoImprimir += `<p>Presentación: ${this.datos[i].presentacion}</p>`;
-        contenidoImprimir += '</div>'; // Cierra el elemento de columna
+        contenidoImprimir += '</div>'; // Cierra el contenedor de la segunda columna
       }
-      contenidoImprimir += '</div>'; // Cierra el contenedor de las dos columnas
+      contenidoImprimir += '</div>'; // Cierra el contenedor flex
     
       const printWindow = window.open('', '', 'left=0,top=50,width=1000,height=600,toolbar=0,scrollbars=0,status=0');
       printWindow!.document.write(contenidoImprimir);
       printWindow!.document.close(); // Cierra la escritura para que se pueda imprimir
       printWindow!.print();
     }
+    
+    
     
     
     async ejecutarImpresion() {
