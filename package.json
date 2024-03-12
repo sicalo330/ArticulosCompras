@@ -26,6 +26,7 @@
     "html2pdf.js": "^0.10.1",
     "http-client": "^4.3.1",
     "jspdf": "^2.5.1",
+    "ngx-print": "^1.5.1",
     "pdfmake": "^0.2.10",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

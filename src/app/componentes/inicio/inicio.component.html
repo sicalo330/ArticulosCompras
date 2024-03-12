@@ -36,9 +36,25 @@
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-primary" (click)="verificarPDF()">Enviar datos</button>
+        <button class="btn btn-primary" (click)="printer()">Enviar datos</button>
     </div>
-    
+    <!-- //DIV a imprimir -->
+    <div id="print" style="margin: 0; padding: 0; border: 0;">
+        <div>
+            <h3>{{ codigoImpr }}</h3>
+            <h3>{{ nombreImpr }}</h3>
+            <h3>{{ presentacionImpr }}</h3>
+    </div>
+        <!-- <div style="display: flex; align-items: center; justify-content: center; position: absolute; 
+                    width: 3301px; height: 2551px; background-size: 100% 100%; background-repeat:no-repeat;
+                    background-size: cover;" class="align-middle">
+
+            <div [innerHTML]="contenedorImpresion" style="text-align: center; font-family: sans-serif;">
+            </div>
+
+            
+        </div> -->
+    </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
