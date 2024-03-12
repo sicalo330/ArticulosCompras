@@ -126,20 +126,25 @@ import { NgxPrintService } from 'ngx-print';
     */
 
     async printer() {
-      const datosCopy = [...this.datos]; // Copia de this.datos
-      for(let i = 0; i < datosCopy.length; i++) {
-        this.codigoImpr = datosCopy[i].codigo;
-        this.nombreImpr = datosCopy[i].nombre;
-        this.presentacionImpr = datosCopy[i].presentacion;
-        console.log(this.codigoImpr);
-        console.log(this.nombreImpr);
-        console.log(this.presentacionImpr);
-    
+      let contenidoImprimir = '<div style="column-count: 2;">'; // Inicia el contenedor de las dos columnas
+      for (let i = 0; i < this.datos.length; i++) {
+        contenidoImprimir += '<div style="display: inline-block; width: 50%;">'; // Inicia un elemento de columna
+        contenidoImprimir += `<p>Código: ${this.datos[i].codigo}</p>`;
+        contenidoImprimir += `<p>Nombre: ${this.datos[i].nombre}</p>`;
+        contenidoImprimir += `<p>Presentación: ${this.datos[i].presentacion}</p>`;
+        contenidoImprimir += '</div>'; // Cierra el elemento de columna
       }
-      await this.ejecutarImpresion();
+      contenidoImprimir += '</div>'; // Cierra el contenedor de las dos columnas
+    
+      const printWindow = window.open('', '', 'left=0,top=50,width=1000,height=600,toolbar=0,scrollbars=0,status=0');
+      printWindow!.document.write(contenidoImprimir);
+      printWindow!.document.close(); // Cierra la escritura para que se pueda imprimir
+      printWindow!.print();
     }
     
+    
     async ejecutarImpresion() {
+      console.log('ejecutando impresion')
       return new Promise<void>((resolve, reject) => {
         const printContent = document.getElementById("print") as HTMLElement;
         let WindowPrt = window.open('', '', 'left=0,top=50,width=500,height=600,toolbar=0,scrollbars=0,status=0');
