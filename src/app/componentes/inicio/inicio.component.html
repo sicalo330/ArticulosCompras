@@ -39,12 +39,11 @@
         <button class="btn btn-primary" (click)="printer()">Enviar datos</button>
     </div>
     <!-- //DIV a imprimir -->
-    <div id="print" style="margin: 0; padding: 0; border: 0;">
+    <div id="print" style="margin: 0; padding: 0; border: 0; width: 50%; height: 50%;">
         <div>
-            <h3>{{ codigoImpr }}</h3>
-            <h3>{{ nombreImpr }}</h3>
-            <h3>{{ presentacionImpr }}</h3>
-    </div>
+            <p style="font-size: 15px;padding: 0px; margin: 0px;" id="nombreSticker">CHAMPIÑONES AL AJILLO CON CROUTONES QUESO APANADO</p>
+            <p style="font-size: 10px; padding: 0px; margin: 0px;">{{ codigoImpr }} - {{ presentacionImpr }}</p>
+        </div>
         <!-- <div style="display: flex; align-items: center; justify-content: center; position: absolute; 
                     width: 3301px; height: 2551px; background-size: 100% 100%; background-repeat:no-repeat;
                     background-size: cover;" class="align-middle">
