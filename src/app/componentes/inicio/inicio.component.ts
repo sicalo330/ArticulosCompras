@@ -46,7 +46,7 @@ import { NgxPrintService } from 'ngx-print';
       const presentacion = row.cells[2].innerText;
       let nombreDividido = [];
       if (checkbox.checked) {
-          if (nombre.length > 20) {
+          if (nombre.length > 10) {
               let palabras = nombre.split(" ");
               let linea = palabras[0];
               for (let i = 1; i < palabras.length; i++) {

@@ -40,27 +40,25 @@
     </div>
     <!-- //DIV a imprimir -->
     <div id="print" style="margin: 0; padding: 0; border: 0; width: 50%; height: 50%;">
-        <div>
-            <p style="font-size: 15px; padding: 0px; margin: 0px; padding-bottom: 8px;" id="nombreSticker">
-                {{nombreImpr[0]}} <br>
-                <span *ngIf="nombreImpr[1]">{{nombreImpr[1]}} <br></span>
-                <span *ngIf="nombreImpr[2]">{{nombreImpr[2]}} <br></span>
-                <span *ngIf="nombreImpr[3]">{{nombreImpr[3]}} <br></span>
-            </p>
-            <p style="font-size: 12px; padding: 0px; margin: 0px;">
-                {{ codigoImpr }} - {{ presentacionImpr }} - FAM
-            </p>
-        </div>
-        <!-- <div style="display: flex; align-items: center; justify-content: center; position: absolute; 
-                    width: 3301px; height: 2551px; background-size: 100% 100%; background-repeat:no-repeat;
-                    background-size: cover;" class="align-middle">
-
-            <div [innerHTML]="contenedorImpresion" style="text-align: center; font-family: sans-serif;">
+        <div style="display: flex; justify-content: space-between;">
+            <div style="width: 50%;display: flex;">
+                <div style="font-size: 12px; padding: 0px; margin: 0px; width: 25%;">
+                    <p style="margin: 2px 0;">{{codigoImpr}}</p>
+                    <p style="margin: 2px 0;">{{presentacionImpr}}</p>
+                    <p style="margin: 2px 0;">FAM</p>
+                </div>
+                <p style="font-size: 12px; padding: 0px; margin: 0px;">
+                    {{nombreImpr[0]}}<br>
+                    {{nombreImpr[1]}}<br>
+                    {{nombreImpr[2]}}<br>
+                    {{nombreImpr[3]}}
+                </p>
             </div>
-
-            
-        </div> -->
+        </div>
     </div>
+    
+    
+    
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
