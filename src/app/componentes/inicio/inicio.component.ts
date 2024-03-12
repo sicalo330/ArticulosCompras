@@ -39,22 +39,41 @@ import { NgxPrintService } from 'ngx-print';
     constructor(private pdfService: PdfService, private conexionService: ConexionService, private printerService: NgxPrintService) { }
     //Esto captura los valores que se seleccionaron para imprimirlos
     capturarValores(event: any) {
-        const checkbox = event.target;
-        const row = checkbox.closest('tr');
-        const codigo = row.cells[0].innerText;
-        const nombre = row.cells[1].innerText;
-        const presentacion = row.cells[2].innerText;
-        if (checkbox.checked) {
-          this.datos.push({ codigo, nombre, presentacion });
+      const checkbox = event.target;
+      const row = checkbox.closest('tr');
+      const codigo = row.cells[0].innerText;
+      const nombre = row.cells[1].innerText;
+      const presentacion = row.cells[2].innerText;
+      let nombreDividido = [];
+      if (checkbox.checked) {
+          if (nombre.length > 20) {
+              let palabras = nombre.split(" ");
+              let linea = palabras[0];
+              for (let i = 1; i < palabras.length; i++) {
+                  if ((linea + " " + palabras[i]).length <= 20) {
+                      linea += " " + palabras[i];
+                  } else {
+                      nombreDividido.push(linea);
+                      linea = palabras[i];
+                  }
+              }
+              if (linea.length > 0) {
+                  nombreDividido.push(linea);
+              }
+          } else {
+              nombreDividido.push(nombre);
+          }
+          this.datos.push({ codigo, nombre: nombreDividido, presentacion });
           this.seleccionados.add(codigo); // Agrega el código a la lista de seleccionados
-          this.contSelect += 1;
-        } else {
+      } else {
           // Elimina el elemento de datos y de la lista de seleccionados si el checkbox se desmarca
           this.datos = this.datos.filter(item => item.codigo !== codigo);
           this.seleccionados.delete(codigo);
-          this.contSelect -= 1;
-        }
-    }
+      }
+      console.log(this.datos);
+  }
+  
+  
 
     //Este captura los valores del check box al hacer click
     capturarSelect(event:any){
@@ -62,7 +81,8 @@ import { NgxPrintService } from 'ngx-print';
       this.valorSeleccionado =  select.value
       this.conexionService.filtrarInformacion(this.valorSeleccionado).subscribe(data => {
         this.articulo = data
-        
+        console.log(data.consulta)
+        console.log(data.lineasDivididas)
       })
     }
 
@@ -161,6 +181,7 @@ import { NgxPrintService } from 'ngx-print';
         this.articuloGrupo = [...data];
         //El uso de Set tiene una complejidad lineal, espero que no de problemas de eficiencia
         this.gruposUnicos = Array.from(new Set(this.articulo.map((item: any) => item.Grupo)));
+        console.log(data)
       });
     }
   }
