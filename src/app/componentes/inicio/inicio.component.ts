@@ -16,9 +16,11 @@ import { NgxPrintService } from 'ngx-print';
     gruposUnicos:String[] = []
     seleccionados: Set<string> = new Set();
     valorSeleccionado:string = ''
+    empresaSeleccionada:string = ''
     contSelect:number = 0;
     cantPDF:number = 0;
     contador:number = 0;
+    selectActual:string = ''
 
     codigoImpr = ''
     nombreImpr = ''
@@ -35,9 +37,9 @@ import { NgxPrintService } from 'ngx-print';
       printTitle: ''
     };
 
-    //Validar que se tome un valor para al empresa
     constructor(private pdfService: PdfService, private conexionService: ConexionService, private printerService: NgxPrintService) { }
-    //Esto captura los valores que se seleccionaron para imprimirlos
+
+    //Esto captura los valores del checkbox
     capturarValores(event: any) {
       const checkbox = event.target;
       const row = checkbox.closest('tr');
@@ -46,11 +48,11 @@ import { NgxPrintService } from 'ngx-print';
       const presentacion = row.cells[2].innerText;
       let nombreDividido = [];
       if (checkbox.checked) {
-          if (nombre.length > 10) {
+          if (nombre.length > 30) {
               let palabras = nombre.split(" ");
               let linea = palabras[0];
               for (let i = 1; i < palabras.length; i++) {
-                  if ((linea + " " + palabras[i]).length <= 20) {
+                  if ((linea + " " + palabras[i]).length <= 30) {
                       linea += " " + palabras[i];
                   } else {
                       nombreDividido.push(linea);
@@ -75,17 +77,29 @@ import { NgxPrintService } from 'ngx-print';
   
   
 
-    //Este captura los valores del check box al hacer click
+    //Este captura los valores del select
     capturarSelect(event:any){
       const select = event.target;
       this.valorSeleccionado =  select.value
       this.conexionService.filtrarInformacion(this.valorSeleccionado).subscribe(data => {
         this.articulo = data
-        console.log(data.consulta)
-        console.log(data.lineasDivididas)
+        this.verificarSelect(data)
+        console.log(data)
       })
     }
 
+    capturarEmpresa(event:any){
+      const select = event.target;
+      this.empresaSeleccionada =  select.value
+      console.log(this.empresaSeleccionada)
+    }
+
+    verificarSelect(datos:any){
+      if(this.selectActual != datos){
+        console.log("ha cambiado")
+        this.datos = []
+      }
+    }
     
     /*
     verificarPDF(){
@@ -158,7 +172,6 @@ import { NgxPrintService } from 'ngx-print';
         await this.ejecutarImpresion();
       }
     }
-    
     async ejecutarImpresion() {
       return new Promise<void>((resolve, reject) => {
         const printContent = document.getElementById("print") as HTMLElement;
