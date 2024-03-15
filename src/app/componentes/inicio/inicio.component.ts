@@ -11,6 +11,9 @@ import { NgxPrintService } from 'ngx-print';
   export class InicioComponent implements OnInit {
     datos: any[] = []
     imprimer:any[] = []
+    par:any[] = []
+    listPar:any[] = []
+    bajar:number = 0
     articulo:any
     articuloGrupo:any
     gruposUnicos:String[] = []
@@ -161,18 +164,50 @@ import { NgxPrintService } from 'ngx-print';
 
     async printer() {
       const datosCopy = [...this.datos]; // Copia de this.datos
-      for(let i = 0; i < datosCopy.length; i++) {
+      console.log(datosCopy)
+      for(let i = 0; i < datosCopy.length; i++) {   
+        this.contador += 1
         this.codigoImpr = datosCopy[i].codigo;
         this.nombreImpr = datosCopy[i].nombre;
         this.presentacionImpr = datosCopy[i].presentacion;
         console.log(this.codigoImpr);
         console.log(this.nombreImpr);
         console.log(this.presentacionImpr);
-    
-        await this.ejecutarImpresion();
+
+        this.par.push(datosCopy[i])
+
+        //Si la cantidad de datos es par
+        if(this.par.length % 2 == 0){
+          console.log("hay un par")
+          await this.agregarPar(this.par)
+          this.par = []
+          await this.ejecutarImpresion()
+        }
+
+        //Arreglo auxiliar para controlar los pares de información
+        console.log(this.par)
+      }
+      //Esto significa que tomaron datos impares, por ejemplo 3, 2 se imprimen y el tercero tiene que ser impreso de igual forma
+      if(this.par.length % 2 == 1){
+        console.log("hay un par")
+        await this.agregarImpar(this.par)
+        this.par = []
+        await this.ejecutarImpresion()
       }
     }
+
+    async agregarPar(par:any[]){
+      console.log()
+      this.listPar = par
+    }
+
+    async agregarImpar(par:any[]){
+      console.log()
+      this.listPar = par
+    }
+
     async ejecutarImpresion() {
+      console.log("Imprimiendo")
       return new Promise<void>((resolve, reject) => {
         const printContent = document.getElementById("print") as HTMLElement;
         let WindowPrt = window.open('', '', 'left=0,top=50,width=500,height=600,toolbar=0,scrollbars=0,status=0');
@@ -182,11 +217,12 @@ import { NgxPrintService } from 'ngx-print';
             WindowPrt!.print();
             WindowPrt!.close(); // Cierra la ventana después de imprimir
             resolve(); // Resuelve la promesa cuando la impresión se complete
+            this.listPar = []
           }, 2000);
         }, 1000);
       });
     }
-    
+
 
     ngOnInit(): void {
       this.conexionService.getArticulos().subscribe(data => {
