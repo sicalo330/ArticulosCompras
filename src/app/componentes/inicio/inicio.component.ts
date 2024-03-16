@@ -13,6 +13,7 @@ import { NgxPrintService } from 'ngx-print';
     imprimer:any[] = []
     par:any[] = []
     listPar:any[] = []
+    nombreDividido:string [] = [];
     bajar:number = 0
     articulo:any
     articuloGrupo:any
@@ -28,6 +29,8 @@ import { NgxPrintService } from 'ngx-print';
     codigoImpr = ''
     nombreImpr = ''
     presentacionImpr = ''
+    nombre:string = ''
+    codigo:string = ''
 
     printOptions: PrintOptions = {
       printSectionId: 'print',
@@ -42,44 +45,50 @@ import { NgxPrintService } from 'ngx-print';
 
     constructor(private pdfService: PdfService, private conexionService: ConexionService, private printerService: NgxPrintService) { }
 
-    //Esto captura los valores del checkbox
+    //Captura los checkbox
     capturarValores(event: any) {
       const checkbox = event.target;
       const row = checkbox.closest('tr');
       const codigo = row.cells[0].innerText;
       const nombre = row.cells[1].innerText;
       const presentacion = row.cells[2].innerText;
-      let nombreDividido = [];
+      let nombreDividido: string[] = [];
+    
       if (checkbox.checked) {
-          if (nombre.length > 30) {
-              let palabras = nombre.split(" ");
-              let linea = palabras[0];
-              for (let i = 1; i < palabras.length; i++) {
-                  if ((linea + " " + palabras[i]).length <= 30) {
-                      linea += " " + palabras[i];
-                  } else {
-                      nombreDividido.push(linea);
-                      linea = palabras[i];
-                  }
-              }
-              if (linea.length > 0) {
-                  nombreDividido.push(linea);
-              }
-          } else {
-              nombreDividido.push(nombre);
-          }
-          this.datos.push({ codigo, nombre: nombreDividido, presentacion });
-          this.seleccionados.add(codigo); // Agrega el código a la lista de seleccionados
+        if (nombre.length > 30) {
+          nombreDividido = this.dividirPalabra(nombre);
+        } else {
+          nombreDividido.push(nombre);
+        }
+        this.datos.push({ codigo, nombre: nombreDividido, presentacion });
+        this.seleccionados.add(codigo); // Agrega el código a la lista de seleccionados
       } else {
-          // Elimina el elemento de datos y de la lista de seleccionados si el checkbox se desmarca
-          this.datos = this.datos.filter(item => item.codigo !== codigo);
-          this.seleccionados.delete(codigo);
+        // Elimina el elemento de datos y de la lista de seleccionados si el checkbox se desmarca
+        this.datos = this.datos.filter(item => item.codigo !== codigo || item.nombre.join(' ') !== nombre);
+        this.seleccionados.delete(codigo);
       }
       console.log(this.datos);
-  }
+    }
+    
+    dividirPalabra(nombre: string): string[] {
+      let palabras = nombre.split(" ");
+      let nombreDividido: string[] = [];
+      let linea = palabras[0];
+      for (let i = 1; i < palabras.length; i++) {
+        if ((linea + " " + palabras[i]).length <= 30) {
+          linea += " " + palabras[i];
+        } else {
+          nombreDividido.push(linea);
+          linea = palabras[i];
+        }
+      }
+      if (linea.length > 0) {
+        nombreDividido.push(linea);
+      }
+      return nombreDividido;
+    }
+    
   
-  
-
     //Este captura los valores del select
     capturarSelect(event:any){
       const select = event.target;

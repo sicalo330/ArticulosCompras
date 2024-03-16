@@ -46,7 +46,11 @@
             <div *ngFor="let dataPar of listPar">
                     <p style="margin: 0;">{{dataPar.codigo}}</p>
                     <div style="font-size: 12px; padding: 0px; margin: 0px;" >
-                        <p style="margin: 0;" *ngIf="nombreImpr">{{dataPar.nombre}}</p><br *ngIf="nombreImpr.length > 1">
+                        <p style="margin: 0;" *ngIf="nombreImpr[0]">{{nombreImpr[0]}}</p>
+                        <p style="margin: 0;" *ngIf="nombreImpr[1]">{{nombreImpr[1]}}</p>
+                        <p style="margin: 0;" *ngIf="nombreImpr[2]">{{nombreImpr[2]}}</p>
+                        <p style="margin: 0;" *ngIf="nombreImpr[3]">{{nombreImpr[3]}}</p>
+                        <br *ngIf="nombreImpr.length > 1">
                     </div>
                     <p style="margin: 0; font-size: 15px;">{{dataPar.presentacion}}</p>
                     <p style="margin: 0; font-size: 15px;">{{dataPar.empresaSeleccionada}}</p>
