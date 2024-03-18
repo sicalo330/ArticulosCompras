@@ -26,6 +26,8 @@ import { NgxPrintService } from 'ngx-print';
     cantPDF:number = 0;
     contador:number = 0;
     selectActual:string = ''
+    db:String = ''
+    database:any
 
     codigoImpr = ''
     nombreImpr:String[] = []
@@ -89,25 +91,57 @@ import { NgxPrintService } from 'ngx-print';
       return nombreDividido;
     }
   
-    //Este captura los valores del select
+    //Este captura los valores del select grupos
     capturarSelect(event:any){
       const select = event.target;
       this.valorSeleccionado =  select.value
-      this.conexionService.filtrarInformacion(this.valorSeleccionado).subscribe(data => {
-        this.articulo = data
-        this.verificarSelect(data)
-      })
+        this.conexionService.filtrarInformacion(this.valorSeleccionado).subscribe(data => {
+          this.articulo = data
+          this.verificarSelect(data)
+        })
     }
 
     capturarEmpresa(event:any){
       const select = event.target;
       this.empresaSeleccionada =  select.value
+      this.conexionService.filtrarEmpresa(this.empresaSeleccionada).subscribe(data => {
+        this.db = data.parent.config.database
+        console.log(this.db)
+        this.filtrarPorEmpresa()
+      })
     }
 
     //Esto detecta si se ha cambiado de grupo
     verificarSelect(datos:any){
       if(this.selectActual != datos){
         this.datos = []
+      }
+    }
+
+    filtrarPorEmpresa(){
+      console.log(this.db)
+      if(this.db == 'Productos'){
+        this.conexionService.getProductos().subscribe(data => {
+          this.articulo = data;
+          this.articuloGrupo = [...data];
+          this.gruposUnicos = Array.from(new Set(this.articulo.map((item: any) => item.grupo)));
+          console.log(this.gruposUnicos)
+          /* 
+          this.articuloGrupo = [...data];
+          //El uso de Set tiene una complejidad lineal, espero que no de problemas de eficiencia
+          this.gruposUnicos = Array.from(new Set(this.articulo.map((item: any) => item.Grupo)));
+          console.log("Esto sale al cargar", this.gruposUnicos)
+          */
+        })
+      }
+      if(this.db == 'Articulos'){
+        this.conexionService.getArticulos().subscribe(data => {
+        this.articulo = data;
+        this.articuloGrupo = [...data];
+        //El uso de Set tiene una complejidad lineal, espero que no de problemas de eficiencia
+        this.gruposUnicos = Array.from(new Set(this.articulo.map((item: any) => item.Grupo)));
+        console.log("Esto sale al cargar", this.gruposUnicos)
+        })
       }
     }
     
@@ -221,11 +255,14 @@ import { NgxPrintService } from 'ngx-print';
     }
 
     ngOnInit(): void {
+      /*
       this.conexionService.getArticulos().subscribe(data => {
         this.articulo = data;
         this.articuloGrupo = [...data];
         //El uso de Set tiene una complejidad lineal, espero que no de problemas de eficiencia
         this.gruposUnicos = Array.from(new Set(this.articulo.map((item: any) => item.Grupo)));
+        console.log("Esto sale al cargar", this.gruposUnicos)
       });
+       */
     }
   }
