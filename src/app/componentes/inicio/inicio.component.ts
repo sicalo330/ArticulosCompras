@@ -68,7 +68,7 @@ import { NgxPrintService } from 'ngx-print';
         this.datos = this.datos.filter(item => item.codigo !== codigo || item.nombre.join(' ') !== nombre);
         this.seleccionados.delete(codigo);
       }
-      console.log(this.datos);
+      this.listPar = this.datos
     }
     
     dividirPalabra(nombre: string): string[] {
@@ -96,20 +96,17 @@ import { NgxPrintService } from 'ngx-print';
       this.conexionService.filtrarInformacion(this.valorSeleccionado).subscribe(data => {
         this.articulo = data
         this.verificarSelect(data)
-        console.log(data)
       })
     }
 
     capturarEmpresa(event:any){
       const select = event.target;
       this.empresaSeleccionada =  select.value
-      console.log(this.empresaSeleccionada)
     }
 
     //Esto detecta si se ha cambiado de grupo
     verificarSelect(datos:any){
       if(this.selectActual != datos){
-        console.log("ha cambiado")
         this.datos = []
       }
     }
@@ -174,34 +171,25 @@ import { NgxPrintService } from 'ngx-print';
 
     async printer() {
       const datosCopy = [...this.datos]; // Copia de this.datos
-      console.log(datosCopy)
       for(let i = 0; i < datosCopy.length; i++) {   
         this.contador += 1
         this.codigoImpr = datosCopy[i].codigo;
         this.nombreImpr = datosCopy[i].nombre;
         this.presentacionImpr = datosCopy[i].presentacion;
-        console.log(this.codigoImpr);
-        console.log(this.nombreImpr);
-        console.log(this.presentacionImpr);
 
         this.par.push(datosCopy[i])
-        console.log("En el par se puso: ", datosCopy[i])
 
         //Si la cantidad de datos es par
         if(this.par.length == 2){
-          console.log("Tamaño del array: ", this.par.length)
-          console.log("hay un par")
           await this.agregarPar(this.par)
           this.par = []
           await this.ejecutarImpresion()
         }
 
         //Arreglo auxiliar para controlar los pares de información
-        console.log(this.nombreImpr)
       }
       //Esto significa que tomaron datos impares, por ejemplo 3, 2 se imprimen y el tercero tiene que ser impreso de igual forma
       if(this.par.length == 1){
-        console.log("hay un impar")
         await this.agregarImpar(this.par)
         this.par = []
         await this.ejecutarImpresion()
@@ -217,7 +205,6 @@ import { NgxPrintService } from 'ngx-print';
     }
 
     async ejecutarImpresion() {
-      console.log("Imprimiendo")
       return new Promise<void>((resolve, reject) => {
         const printContent = document.getElementById("print") as HTMLElement;
         let WindowPrt = window.open('', '', 'left=0,top=50,width=500,height=600,toolbar=0,scrollbars=0,status=0');
@@ -233,14 +220,12 @@ import { NgxPrintService } from 'ngx-print';
       });
     }
 
-
     ngOnInit(): void {
       this.conexionService.getArticulos().subscribe(data => {
         this.articulo = data;
         this.articuloGrupo = [...data];
         //El uso de Set tiene una complejidad lineal, espero que no de problemas de eficiencia
         this.gruposUnicos = Array.from(new Set(this.articulo.map((item: any) => item.Grupo)));
-        console.log(data)
       });
     }
   }
