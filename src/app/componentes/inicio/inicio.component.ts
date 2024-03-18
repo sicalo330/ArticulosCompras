@@ -14,6 +14,7 @@ import { NgxPrintService } from 'ngx-print';
     par:any[] = []
     listPar:any[] = []
     nombreDividido:string [] = [];
+    nombreActual: string | string[] = '';
     bajar:number = 0
     articulo:any
     articuloGrupo:any
@@ -27,7 +28,7 @@ import { NgxPrintService } from 'ngx-print';
     selectActual:string = ''
 
     codigoImpr = ''
-    nombreImpr = ''
+    nombreImpr:String[] = []
     presentacionImpr = ''
     nombre:string = ''
     codigo:string = ''
@@ -87,7 +88,6 @@ import { NgxPrintService } from 'ngx-print';
       }
       return nombreDividido;
     }
-    
   
     //Este captura los valores del select
     capturarSelect(event:any){
@@ -106,6 +106,7 @@ import { NgxPrintService } from 'ngx-print';
       console.log(this.empresaSeleccionada)
     }
 
+    //Esto detecta si se ha cambiado de grupo
     verificarSelect(datos:any){
       if(this.selectActual != datos){
         console.log("ha cambiado")
@@ -184,9 +185,11 @@ import { NgxPrintService } from 'ngx-print';
         console.log(this.presentacionImpr);
 
         this.par.push(datosCopy[i])
+        console.log("En el par se puso: ", datosCopy[i])
 
         //Si la cantidad de datos es par
-        if(this.par.length % 2 == 0){
+        if(this.par.length == 2){
+          console.log("Tamaño del array: ", this.par.length)
           console.log("hay un par")
           await this.agregarPar(this.par)
           this.par = []
@@ -194,11 +197,11 @@ import { NgxPrintService } from 'ngx-print';
         }
 
         //Arreglo auxiliar para controlar los pares de información
-        console.log(this.par)
+        console.log(this.nombreImpr)
       }
       //Esto significa que tomaron datos impares, por ejemplo 3, 2 se imprimen y el tercero tiene que ser impreso de igual forma
-      if(this.par.length % 2 == 1){
-        console.log("hay un par")
+      if(this.par.length == 1){
+        console.log("hay un impar")
         await this.agregarImpar(this.par)
         this.par = []
         await this.ejecutarImpresion()
@@ -206,12 +209,10 @@ import { NgxPrintService } from 'ngx-print';
     }
 
     async agregarPar(par:any[]){
-      console.log()
       this.listPar = par
     }
 
     async agregarImpar(par:any[]){
-      console.log()
       this.listPar = par
     }
 
