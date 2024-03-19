@@ -40,7 +40,7 @@
         <button class="btn btn-primary" (click)="printer()">Enviar datos</button>
     </div>
     <!-- //DIV a imprimir -->
-    <div id="print" style="margin: 0; padding: 0; border: 0; width: 30%; height: 50%; display: flex; flex-direction: column; gap: 10px;">
+    <div id="print" [style.visibility]="'hidden'" style="margin: 0; padding: 0; border: 0; width: 30%; height: 50%; display: flex; flex-direction: column; gap: 10px;">
         <!-- Primer div -->
         <div style="display: flex; width: 520px;">
             <div style="width: 410px;" *ngFor="let dataPar of listPar">
