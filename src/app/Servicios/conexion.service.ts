@@ -22,7 +22,7 @@ export class ConexionService {
     return this.http.get(this.myAppUrl + this.myApiUrl + '/getArticulos')
   }
 
-  filtrarInformacion(grupo:any): Observable<any>{
+  filtrarInformacionArticulos(grupo:any): Observable<any>{
     return this.http.post(this.myAppUrl + this.myApiUrl + '/filtrar', {Grupo:grupo})
   }
   
@@ -36,5 +36,10 @@ export class ConexionService {
 
   filtrarEmpresa(empresa:any): Observable<any>{
     return this.http.post(this.myAppUrl + this.myProducto + '/filtrarEmpresa',{Empresa:empresa} )
+  }
+
+  filtrarInformacionProductos(grupo:any): Observable<any>{
+    console.log(grupo)
+    return this.http.post(this.myAppUrl + this.myProducto + '/filtrar', {Grupo:grupo})
   }
 }

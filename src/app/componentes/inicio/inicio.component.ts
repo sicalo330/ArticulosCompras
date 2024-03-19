@@ -95,10 +95,18 @@ import { NgxPrintService } from 'ngx-print';
     capturarSelect(event:any){
       const select = event.target;
       this.valorSeleccionado =  select.value
-        this.conexionService.filtrarInformacion(this.valorSeleccionado).subscribe(data => {
+      if(this.db == 'Articulos'){
+        this.conexionService.filtrarInformacionArticulos(this.valorSeleccionado).subscribe(data => {
           this.articulo = data
-          this.verificarSelect(data)
+          this.verificarSelect(data)  
         })
+      }
+      if(this.db == 'Productos'){
+        this.conexionService.filtrarInformacionProductos(this.valorSeleccionado).subscribe(data => {
+          this.articulo = data
+          this.verificarSelect(data)  
+        })
+      }
     }
 
     capturarEmpresa(event:any){
@@ -106,7 +114,6 @@ import { NgxPrintService } from 'ngx-print';
       this.empresaSeleccionada =  select.value
       this.conexionService.filtrarEmpresa(this.empresaSeleccionada).subscribe(data => {
         this.db = data.parent.config.database
-        console.log(this.db)
         this.filtrarPorEmpresa()
       })
     }
@@ -119,19 +126,11 @@ import { NgxPrintService } from 'ngx-print';
     }
 
     filtrarPorEmpresa(){
-      console.log(this.db)
       if(this.db == 'Productos'){
         this.conexionService.getProductos().subscribe(data => {
           this.articulo = data;
           this.articuloGrupo = [...data];
-          this.gruposUnicos = Array.from(new Set(this.articulo.map((item: any) => item.grupo)));
-          console.log(this.gruposUnicos)
-          /* 
-          this.articuloGrupo = [...data];
-          //El uso de Set tiene una complejidad lineal, espero que no de problemas de eficiencia
           this.gruposUnicos = Array.from(new Set(this.articulo.map((item: any) => item.Grupo)));
-          console.log("Esto sale al cargar", this.gruposUnicos)
-          */
         })
       }
       if(this.db == 'Articulos'){
@@ -140,7 +139,6 @@ import { NgxPrintService } from 'ngx-print';
         this.articuloGrupo = [...data];
         //El uso de Set tiene una complejidad lineal, espero que no de problemas de eficiencia
         this.gruposUnicos = Array.from(new Set(this.articulo.map((item: any) => item.Grupo)));
-        console.log("Esto sale al cargar", this.gruposUnicos)
         })
       }
     }
@@ -255,14 +253,5 @@ import { NgxPrintService } from 'ngx-print';
     }
 
     ngOnInit(): void {
-      /*
-      this.conexionService.getArticulos().subscribe(data => {
-        this.articulo = data;
-        this.articuloGrupo = [...data];
-        //El uso de Set tiene una complejidad lineal, espero que no de problemas de eficiencia
-        this.gruposUnicos = Array.from(new Set(this.articulo.map((item: any) => item.Grupo)));
-        console.log("Esto sale al cargar", this.gruposUnicos)
-      });
-       */
     }
   }
