@@ -98,12 +98,15 @@ import { NgxPrintService } from 'ngx-print';
       if(this.db == 'Articulos'){
         this.conexionService.filtrarInformacionArticulos(this.valorSeleccionado).subscribe(data => {
           this.articulo = data
+          console.log(data)
           this.verificarSelect(data)  
         })
       }
       if(this.db == 'Productos'){
+        console.log(this.valorSeleccionado)
         this.conexionService.filtrarInformacionProductos(this.valorSeleccionado).subscribe(data => {
           this.articulo = data
+          console.log(data)
           this.verificarSelect(data)  
         })
       }
@@ -127,13 +130,17 @@ import { NgxPrintService } from 'ngx-print';
 
     filtrarPorEmpresa(){
       if(this.db == 'Productos'){
+        console.log("Entró a ", this.db)
         this.conexionService.getProductos().subscribe(data => {
+          console.log(data)
           this.articulo = data;
           this.articuloGrupo = [...data];
           this.gruposUnicos = Array.from(new Set(this.articulo.map((item: any) => item.Grupo)));
+          console.log(this.gruposUnicos)
         })
       }
       if(this.db == 'Articulos'){
+        console.log("Entró a ", this.db)
         this.conexionService.getArticulos().subscribe(data => {
         this.articulo = data;
         this.articuloGrupo = [...data];
@@ -237,6 +244,7 @@ import { NgxPrintService } from 'ngx-print';
     }
 
     async ejecutarImpresion() {
+      console.log("Imprimiendo")
       return new Promise<void>((resolve, reject) => {
         const printContent = document.getElementById("print") as HTMLElement;
         let WindowPrt = window.open('', '', 'left=0,top=50,width=500,height=600,toolbar=0,scrollbars=0,status=0');

@@ -19,6 +19,7 @@ export class ConexionService {
   }
 
   getArticulos(): Observable<any>{
+    console.log("obteniendo articulos")
     return this.http.get(this.myAppUrl + this.myApiUrl + '/getArticulos')
   }
 
@@ -27,6 +28,7 @@ export class ConexionService {
   }
   
   getProductos(): Observable<any>{
+    console.log("obteniendo productos")
     return this.http.get(this.myAppUrl + this.myProducto + '/getProductos')
   }
 
@@ -39,7 +41,7 @@ export class ConexionService {
   }
 
   filtrarInformacionProductos(grupo:any): Observable<any>{
-    console.log(grupo)
-    return this.http.post(this.myAppUrl + this.myProducto + '/filtrar', {Grupo:grupo})
+    console.log(this.myAppUrl + this.myApiUrl + '/filtrar', {Grupo:grupo})
+    return this.http.post(this.myAppUrl + this.myApiUrl + '/filtrar', {Grupo:grupo})
   }
 }
