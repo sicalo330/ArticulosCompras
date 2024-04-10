@@ -19,16 +19,10 @@ export class ConexionService {
   }
 
   getArticulos(): Observable<any>{
-    console.log("obteniendo articulos")
     return this.http.get(this.myAppUrl + this.myApiUrl + '/getArticulos')
-  }
-
-  filtrarInformacionArticulos(grupo:any): Observable<any>{
-    return this.http.post(this.myAppUrl + this.myApiUrl + '/filtrar', {Grupo:grupo})
   }
   
   getProductos(): Observable<any>{
-    console.log("obteniendo productos")
     return this.http.get(this.myAppUrl + this.myProducto + '/getProductos')
   }
 
@@ -41,7 +35,10 @@ export class ConexionService {
   }
 
   filtrarInformacionProductos(grupo:any): Observable<any>{
-    console.log(this.myAppUrl + this.myApiUrl + '/filtrar', {Grupo:grupo})
-    return this.http.post(this.myAppUrl + this.myApiUrl + '/filtrar', {Grupo:grupo})
+    return this.http.post(this.myAppUrl + this.myProducto  + '/filtrarProductos', {Grupo:grupo})
+  }
+
+  filtrarInformacionArticulos(grupo:any): Observable<any>{
+    return this.http.post(this.myAppUrl + this.myApiUrl + '/filtrarArticulos', {Grupo:grupo})
   }
 }
